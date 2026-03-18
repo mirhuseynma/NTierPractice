@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="NTierApp.BLL/NTierApp.BLL.csproj" />
+  <Project Path="NTierApp.Core/NTierApp.Core.csproj" />
+  <Project Path="NTierApp.DAL/NTierApp.DAL.csproj" />
+  <Project Path="NTierApp.PL/NTierApp.PL.csproj" />
+</Solution>
