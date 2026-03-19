@@ -27,6 +27,9 @@ namespace NTierApp.DAL.Configs
             builder.Property(s => s.DateOfBirth)
                    .IsRequired();
             builder.HasQueryFilter(s => !s.IsDeleted);
+            builder.HasOne(s => s.Group)
+                   .WithMany(g => g.Students)
+                   .HasForeignKey(s => s.GroupId);
 
 
         }

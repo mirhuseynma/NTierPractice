@@ -8,6 +8,7 @@ namespace NTierApp.DAL.Contexts
     public class AppDBContext : DbContext
     {
         public DbSet<Student> Students { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

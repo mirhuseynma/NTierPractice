@@ -9,5 +9,9 @@ namespace NTierApp.Core.Models
         public int Age { get; set; }
         public string Email { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
+
+        public Guid? GroupId { get; set; }
+        public Group Group { get; set; } = null!;
     }
+
 }

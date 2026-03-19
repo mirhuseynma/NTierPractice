@@ -6,16 +6,43 @@ namespace NTierApp.BLL.Services
 {
     public class StudentService : NTierApp.Core.Interfaces.IStudentInterface
     {
-        public async Task<Student> AddStudentAsync(Student student)
+        private readonly GroupService groupService;
+        public async Task<List<Student>> AddStudentAsync(List<Student> students)
         {
             AppDBContext dbContext = new AppDBContext();
-            if (student != null)
+
+            if (students == null)
+                throw new Exception("Students cannot be null");
+
+            // Group students by GroupId
+            var groupedStudents = students.GroupBy(s => s.GroupId);
+
+            foreach (var group in groupedStudents)
             {
-                await dbContext.Students.AddAsync(student);
-                await dbContext.SaveChangesAsync();
-                Console.WriteLine("Student added successfully.");
-                return student;
-            }else throw new Exception("Student cannot be null");
+                var groupId = group.Key;
+                if (groupId == null)
+                    throw new Exception("Students must have a valid GroupId");
+
+                var existingGroup = await dbContext.Groups.FindAsync(groupId);
+                if (existingGroup == null)
+                    throw new Exception($"Group with ID {groupId} not found");
+
+                // Get current student count in this group
+                var currentStudentCount = await dbContext.Students
+                    .Where(s => s.GroupId == groupId && !s.IsDeleted)
+                    .CountAsync();
+
+                var newStudentsCount = group.Count();
+
+                // Check if adding new students exceeds group's student count limit
+                if (currentStudentCount + newStudentsCount > existingGroup.StudentCount)
+                    throw new Exception($"Cannot add {newStudentsCount} students to group '{existingGroup.Name}'. Current: {currentStudentCount}, Limit: {existingGroup.StudentCount}");
+            }
+
+            await dbContext.Students.AddRangeAsync(students);
+            await dbContext.SaveChangesAsync();
+            Console.WriteLine("Students added successfully.");
+            return students;
         }
 
         public async Task DeleteStudentAsync(Guid id)

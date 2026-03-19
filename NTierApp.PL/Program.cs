@@ -1,19 +1,27 @@
 ﻿using NTierApp.BLL.Services;
 using NTierApp.Core.Models;
 
-Student student = new Student
+List<Student> students = new List<Student>
 {
-    Name = "Nesimi",
-    Surname = "Bedullayev",
-    Age = 21,
-    Email = "nesimi@example.com",
-    DateOfBirth = new DateTime(2004, 10, 25)
+   new Student { Name = "James", Surname = "David", Age = 26, Email = "james.david@example.com", DateOfBirth = new DateTime(1998, 5, 15), GroupId = Guid.Parse("a1e5ab4f-c95c-43ed-6390-08de85b96565") },
+};
+
+List<Group> groups = new List<Group>
+{
+    new Group { Name = "Group A", StudentCount = 2, Description = "Description for Group A" },
+    new Group { Name = "Group B", StudentCount = 2, Description = "Description for Group B" }
+
 };
 
 StudentService studentService = new StudentService();
+GroupService groupService = new GroupService();
+
+#region Add groups
+//await groupService.CreateGroupAsync(groups);
+#endregion
 
 #region add student
-//await studentService.AddStudentAsync(student);
+await studentService.AddStudentAsync(students);
 #endregion add student
 
 #region get student by id
@@ -39,15 +47,15 @@ StudentService studentService = new StudentService();
 #endregion
 
 #region get all students
-try
-{
-    studentService.GetAllAsync().Result.ForEach(s =>
-    {
-        Console.WriteLine($"Name: {s.Name}, Surname: {s.Surname}, Age: {s.Age}, Email: {s.Email}, DateOfBirth: {s.DateOfBirth}");
-    });
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+//try
+//{
+//    studentService.GetAllAsync().Result.ForEach(s =>
+//    {
+//        Console.WriteLine($"Name: {s.Name}, Surname: {s.Surname}, Age: {s.Age}, Email: {s.Email}, DateOfBirth: {s.DateOfBirth}");
+//    });
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
 #endregion
