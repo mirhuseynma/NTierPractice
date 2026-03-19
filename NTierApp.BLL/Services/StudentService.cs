@@ -32,10 +32,13 @@ namespace NTierApp.BLL.Services
 
         public async Task<List<Student>> GetAllAsync()
         {
+            
+                Student student;
                 AppDBContext read = new AppDBContext();
-                return await read.Students
-                                 .AsNoTracking()
-                                 .ToListAsync();
+                var students = await read.Students.AsNoTracking().ToListAsync();
+                if (students.Any(s => !s.IsDeleted)) return students.Where(s => !s.IsDeleted).ToList();
+                else throw new Exception("No students found.");
+            
         }
 
         public async Task<Student> GetStudentByIdAsync(Guid id)

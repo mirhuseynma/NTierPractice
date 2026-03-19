@@ -3,11 +3,11 @@ using NTierApp.Core.Models;
 
 Student student = new Student
 {
-    Name = "Mirhuseyn",
-    Surname = "Abdullazade",
+    Name = "Nesimi",
+    Surname = "Bedullayev",
     Age = 21,
-    Email = "zade@example.com",
-    DateOfBirth = new DateTime(2002, 07, 06)
+    Email = "nesimi@example.com",
+    DateOfBirth = new DateTime(2004, 10, 25)
 };
 
 StudentService studentService = new StudentService();
@@ -35,12 +35,19 @@ StudentService studentService = new StudentService();
 #endregion
 
 #region is deleted
-//await studentService.IsDeleted(Guid.Parse("bd698f7a-1523-f111-aa6c-e86f38b50118"));
+//await studentService.IsDeleted(Guid.Parse("bf1ad904-7523-f111-aa6c-e86f38b50118"));
 #endregion
 
 #region get all students
-studentService.GetAllAsync().Result.ForEach(s =>
+try
 {
-    Console.WriteLine($"Name: {s.Name}, Surname: {s.Surname}, Age: {s.Age}, Email: {s.Email}, DateOfBirth: {s.DateOfBirth}");
-});
+    studentService.GetAllAsync().Result.ForEach(s =>
+    {
+        Console.WriteLine($"Name: {s.Name}, Surname: {s.Surname}, Age: {s.Age}, Email: {s.Email}, DateOfBirth: {s.DateOfBirth}");
+    });
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
 #endregion
